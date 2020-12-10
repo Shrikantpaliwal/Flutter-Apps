@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:Flutter_App/questions.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,18 +9,18 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return DiceState();
+    return _DiceState();
   }
 }
 
-class DiceState extends State<MyApp> {
-  int diceNum = 0;
+class _DiceState extends State<MyApp> {
+  int _diceNum = 0;
   void randomGenerate() {
     Random rnd = new Random();
     int dice = rnd.nextInt(6);
-    diceNum = 0;
+    _diceNum = 0;
     setState(() {
-      diceNum = dice + 1;
+      _diceNum = dice + 1;
     });
   }
 
@@ -34,7 +35,9 @@ class DiceState extends State<MyApp> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(diceNum.toString(), style: TextStyle(fontSize: 120)),
+            Questions(
+              _diceNum.toString(),
+            ),
             Align(alignment: Alignment.centerRight),
             RaisedButton(
               child: Text("Roll The Dice", style: TextStyle(fontSize: 30)),
