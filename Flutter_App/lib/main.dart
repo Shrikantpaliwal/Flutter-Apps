@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _DiceState extends State<MyApp> {
-  int _diceNum = 0;
+  int _diceNum = 0; //_ Prefix Denotes the Private class and properties
   void randomGenerate() {
     Random rnd = new Random();
     int dice = rnd.nextInt(6);
