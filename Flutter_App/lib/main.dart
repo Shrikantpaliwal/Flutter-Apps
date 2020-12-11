@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:Flutter_App/buttonWid.dart';
 import 'package:Flutter_App/questions.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatefulWidget {
 
 class _DiceState extends State<MyApp> {
   int _diceNum = 0; //_ Prefix Denotes the Private class and properties
-  void randomGenerate() {
+  void _randomGenerate() {
     Random rnd = new Random();
     int dice = rnd.nextInt(6);
     _diceNum = 0;
@@ -39,14 +40,7 @@ class _DiceState extends State<MyApp> {
               _diceNum.toString(),
             ),
             Align(alignment: Alignment.centerRight),
-            RaisedButton(
-              child: Text("Roll The Dice", style: TextStyle(fontSize: 30)),
-              onPressed: randomGenerate,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              elevation: 1.5,
-              color: Colors.cyan,
-            )
+            ButtonWid(_randomGenerate)
           ],
         ),
       ),
