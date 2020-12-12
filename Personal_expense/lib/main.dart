@@ -12,8 +12,15 @@ class MyApp extends StatelessWidget {
           title: Text(
         "JamaKharch",
       )),
-      body: Center(
-        child: Text("Play Ground"),
+      body: Column(
+        children: [
+          Card(
+            child: Text("Chart Will go here"),
+          ),
+          Card(
+            child: Text("Transactions will go here"),
+          )
+        ],
       ),
     );
   }
