@@ -51,7 +51,7 @@ class _NewTransactionState extends State<NewTransaction> {
               },
               elevation: 1.5,
               color: Colors.green,
-            )
+            ),
           ],
         ),
       ),

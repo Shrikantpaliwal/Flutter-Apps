@@ -21,6 +21,7 @@ class TransactionList extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.green),
+                    //color: Theme.of(context).primaryColor
                   ),
                   child: Text(
                     '\u20B9 ${_tnx[index].amount.toStringAsFixed(2)}',
