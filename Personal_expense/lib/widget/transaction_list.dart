@@ -7,9 +7,10 @@ class TransactionList extends StatelessWidget {
   TransactionList(this._tnx);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ..._tnx.map((tx) {
+    return Container(
+      height: 390,
+      child: ListView.builder(
+        itemBuilder: (context, index) {
           return Card(
             child: Row(
               children: [
@@ -22,7 +23,7 @@ class TransactionList extends StatelessWidget {
                     border: Border.all(color: Colors.green),
                   ),
                   child: Text(
-                    '\u20B9 ${tx.amount}',
+                    '\u20B9 ${_tnx[index].amount.toStringAsFixed(2)}',
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -34,14 +35,14 @@ class TransactionList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tx.title,
+                      _tnx[index].title,
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
                     Text(
-                      DateFormat('yMEd').format(tx.date),
+                      DateFormat('yMEd').format(_tnx[index].date),
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.normal,
@@ -52,8 +53,9 @@ class TransactionList extends StatelessWidget {
               ],
             ),
           );
-        }).toList()
-      ],
+        },
+        itemCount: _tnx.length,
+      ),
     );
   }
 }
