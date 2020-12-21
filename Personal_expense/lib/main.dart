@@ -1,4 +1,6 @@
+import 'package:Personal_expense/widget/chart.dart';
 import 'package:Personal_expense/widget/new_transaction.dart';
+import 'package:Personal_expense/widget/no_transaction.dart';
 import 'package:Personal_expense/widget/transaction_list.dart';
 import 'package:flutter/material.dart';
 
@@ -29,10 +31,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transaction = [
-    Transaction(
-        id: "t1", title: "New Shoes", amount: 100, date: DateTime.now()),
-    Transaction(id: "t2", title: "PavBhaji", amount: 150, date: DateTime.now())
+    //Transaction(
+    //    id: "t1", title: "New Shoes", amount: 100, date: DateTime.now()),
+    //Transaction(id: "t2", title: "PavBhaji", amount: 150, date: DateTime.now())
   ];
+
+  List<Transaction> get recentTxs {
+    return _transaction.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(
+        Duration(days: 7),
+      ));
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final Transaction newTx = Transaction(
@@ -58,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("JamaKharch"),
+        title: Text("Expense Tracker"),
         actions: [
           IconButton(
               icon: Icon(Icons.add),
@@ -68,20 +78,19 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.cyan,
-                child: Text("Chart Will go here"),
+        child: _transaction.isEmpty
+            ? NoTransaction()
+            : Column(
+                //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    child: Chart(recentTxs),
+                  ),
+                  TransactionList(_transaction)
+                ],
               ),
-            ),
-            TransactionList(_transaction)
-          ],
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
