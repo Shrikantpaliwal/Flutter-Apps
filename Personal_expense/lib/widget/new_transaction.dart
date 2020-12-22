@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -11,16 +12,33 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
+  DateTime pickedDate;
+
   void doSubmit() {
     final String enteredTitle = titleController.text;
     final double enteredAmount = double.parse(amountController.text);
-    if (enteredAmount <= 0 || enteredTitle.isEmpty) {
+    if (enteredAmount <= 0 || enteredTitle.isEmpty || pickedDate == null) {
       return;
     }
-    widget.addTx(enteredTitle, enteredAmount);
+    widget.addTx(enteredTitle, enteredAmount, pickedDate);
     Navigator.of(context).pop();
+  }
+
+  void _popUpDatePicker(BuildContext ctx) {
+    showDatePicker(
+            context: ctx,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((value) {
+      if (value == null) {
+        return;
+      }
+      setState(() {
+        pickedDate = value;
+      });
+    });
   }
 
   @override
@@ -44,13 +62,38 @@ class _NewTransactionState extends State<NewTransaction> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => doSubmit(),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(pickedDate == null
+                    ? "No Date Choosen"
+                    : DateFormat.yMd().format(pickedDate)),
+                FlatButton(
+                  onPressed: () => {_popUpDatePicker(context)},
+                  child: Text(
+                    "Choose Date",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  color: Theme.of(context).primaryColor,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
             RaisedButton(
-              child: Text("Add"),
+              child: Text(
+                "Add",
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 doSubmit();
               },
               elevation: 1.5,
-              color: Colors.green,
+              color: Theme.of(context).primaryColor,
             ),
           ],
         ),
