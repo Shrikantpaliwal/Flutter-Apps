@@ -55,7 +55,6 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
   }
 
   Gender _gender = Gender.Male;
-  String _selectedLocation = 'Daily';
 
   static const Map<String, double> exerciseLevel = {
     'Basal Metabolic Rate': 1,
@@ -69,9 +68,7 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
     'Daily exercise + physical job': 1.9,
   };
 
-  void actOnSubmit() {
-    return;
-  }
+  double _selectedLocation = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -140,21 +137,21 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
                   Text("Exercise level"),
                   DropdownButton<String>(
                       hint: Text('Please choose'),
-                      value: _selectedLocation,
+                      value: _selectedLocation.toString(),
                       items: exerciseLevel
-                          .map((String key, double value) {
+                          .map((String desc, double value) {
                             return MapEntry(
-                                key,
+                                desc,
                                 DropdownMenuItem<String>(
                                   value: value.toString(),
-                                  child: Text(key),
+                                  child: Text(desc),
                                 ));
                           })
                           .values
                           .toList(),
                       onChanged: (newValue) {
                         setState(() {
-                          _selectedLocation = newValue;
+                          _selectedLocation = double.parse(newValue);
                         });
                       })
                 ],
