@@ -11,6 +11,11 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
     with SingleTickerProviderStateMixin {
   //Animation Beta
   AnimationController _controller;
+
+  TextEditingController _controllerAge;
+  TextEditingController _controllerHeight;
+  TextEditingController _controllerWeight;
+
   Animation _animation;
 
   FocusNode _focusNode = FocusNode();
@@ -19,12 +24,15 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
   void initState() {
     super.initState();
 
+    _controllerAge = TextEditingController();
+    _controllerHeight = TextEditingController();
+    _controllerWeight = TextEditingController();
+
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     _animation = Tween(begin: 500.0, end: 250.0).animate(_controller)
       ..addListener(() {
         setState(() {});
-        print("Animation" + _animation.value.toString());
       });
 
     _focusNode.addListener(() {
@@ -40,24 +48,31 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
   void dispose() {
     _controller.dispose();
     _focusNode.dispose();
-
+    _controllerAge.dispose();
+    _controllerHeight..dispose();
+    _controllerWeight..dispose();
     super.dispose();
   }
 
   Gender _gender = Gender.Male;
   String _selectedLocation = 'Daily';
 
-  List<String> exerciseLevel = <String>[
-    'Basal Metabolic Rate',
-    'Little/no exercise',
-    '3 times/week',
-    '4 times/week',
-    '5 times/week',
-    'Daily',
-    '5 times/week (intense)',
-    'Daily (intense) or twice daily',
-    'Daily exercise + physical job'
-  ];
+  static const Map<String, double> exerciseLevel = {
+    'Basal Metabolic Rate': 1,
+    'Little/no exercise': 1.2,
+    '3 times/week': 1.375,
+    '4 times/week': 1.4187,
+    '5 times/week': 1.4625,
+    'Daily': 1.550,
+    '5 times/week (intense)': 1.6375,
+    'Daily (intense) or twice daily': 1.725,
+    'Daily exercise + physical job': 1.9,
+  };
+
+  void actOnSubmit() {
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -80,6 +95,7 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
               TextFormField(
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(labelText: 'Enter your Age'),
+                controller: _controllerAge,
               ),
               Row(
                 //To-Do : Fix Alignment Issue
@@ -109,11 +125,13 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
                 keyboardType: TextInputType.number,
                 decoration:
                     InputDecoration(labelText: 'Enter your Weight in Kg'),
+                controller: _controllerWeight,
               ),
               TextFormField(
                 keyboardType: TextInputType.number,
                 decoration:
                     InputDecoration(labelText: 'Enter your Height in cm'),
+                controller: _controllerHeight,
                 focusNode: _focusNode,
               ),
               Row(
@@ -123,12 +141,17 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
                   DropdownButton<String>(
                       hint: Text('Please choose'),
                       value: _selectedLocation,
-                      items: exerciseLevel.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                      items: exerciseLevel
+                          .map((String key, double value) {
+                            return MapEntry(
+                                key,
+                                DropdownMenuItem<String>(
+                                  value: value.toString(),
+                                  child: Text(key),
+                                ));
+                          })
+                          .values
+                          .toList(),
                       onChanged: (newValue) {
                         setState(() {
                           _selectedLocation = newValue;
