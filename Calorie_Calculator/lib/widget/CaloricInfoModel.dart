@@ -70,6 +70,14 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
 
   double _selectedLocation = 1;
 
+  void doSomething() {
+    print(_controllerAge +
+        _controllerHeight +
+        _controllerWeight +
+        _gender.toString +
+        _selectedLocation.toString);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
