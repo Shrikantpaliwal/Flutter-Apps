@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         buttonColor: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Calorina - Measure Calories for you'),
+      home: MyHomePage(title: 'Calorina - Measure Recommended Calories'),
     );
   }
 }

@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 enum Gender { Male, Female }
 
 class CaloricInfoModel extends StatefulWidget {
+  final Function tog;
+  final Function passData;
+  CaloricInfoModel(this.tog, this.passData);
+
   @override
   _CaloricInfoModelState createState() => _CaloricInfoModelState();
 }
@@ -30,7 +34,7 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
 
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    _animation = Tween(begin: 500.0, end: 250.0).animate(_controller)
+    _animation = Tween(begin: 100.0, end: 50.0).animate(_controller)
       ..addListener(() {
         setState(() {});
       });
@@ -54,7 +58,7 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
     super.dispose();
   }
 
-  Gender _gender = Gender.Male;
+  Gender _gender;
 
   static const Map<String, double> exerciseLevel = {
     'Basal Metabolic Rate': 1,
@@ -71,11 +75,21 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
   double _selectedLocation = 1;
 
   void doSomething() {
-    print(_controllerAge +
-        _controllerHeight +
-        _controllerWeight +
-        _gender.toString +
-        _selectedLocation.toString);
+    if (_controllerHeight == null ||
+        _controllerWeight == null ||
+        _controllerAge == null ||
+        _gender == null ||
+        _selectedLocation == 0.0) {
+      return;
+    }
+    widget.passData(
+        age: _controllerAge.text.toString(),
+        weight: _controllerWeight.text.toString(),
+        height: _controllerHeight.text.toString(),
+        sex: _gender,
+        exerLevel: _selectedLocation);
+    widget.tog(false);
+    Navigator.pop(context);
   }
 
   @override
@@ -103,7 +117,6 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
                 controller: _controllerAge,
               ),
               Row(
-                //To-Do : Fix Alignment Issue
                 children: [
                   Text("Gender"),
                   Radio(
@@ -165,14 +178,20 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
                 ],
               ),
               SizedBox(
-                height: 4,
+                height: 25,
               ),
-              RaisedButton(
-                child: Text(
-                  "Submit",
-                  style: TextStyle(color: Colors.white),
+              Container(
+                height: 45,
+                child: RaisedButton(
+                  child: Center(
+                      child: Text(
+                    "Submit",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  )),
+                  onPressed: () {
+                    doSomething();
+                  },
                 ),
-                onPressed: () => {},
               ),
               SizedBox(
                 height: _animation.value,

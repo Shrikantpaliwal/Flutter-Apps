@@ -13,13 +13,39 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool toggle = true;
+  bool _toggle = true;
+
+  int _getControllerAge;
+  double _getControllerHeight;
+  double _getControllerWeight;
+
+  Gender _getGender;
+  double _getExcersizeLevel;
+
+  void toggleVal(bool val) {
+    setState(() {
+      _toggle = val;
+    });
+  }
+
+  void getPrerequisite(
+      {String age,
+      String weight,
+      String height,
+      double exerLevel,
+      Gender sex}) {
+    _getControllerAge = int.parse(age);
+    _getControllerHeight = double.parse(height);
+    _getControllerWeight = double.parse(weight);
+    _getGender = sex;
+    _getExcersizeLevel = exerLevel;
+  }
 
   void _createModelView(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
       builder: (_) {
-        return CaloricInfoModel();
+        return CaloricInfoModel(toggleVal, getPrerequisite);
       },
     );
   }
@@ -30,9 +56,15 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: toggle == true
+      body: _toggle == true
           ? InitialLandingPage(_createModelView)
-          : CaloricWidget(), // This trailing comma makes auto-formatting nicer for build methods.
+          : CaloricWidget(
+              age: _getControllerAge,
+              height: _getControllerHeight,
+              weight: _getControllerWeight,
+              sex: _getGender,
+              exerLevel:
+                  _getExcersizeLevel), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
