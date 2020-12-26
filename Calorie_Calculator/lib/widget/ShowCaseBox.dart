@@ -9,40 +9,46 @@ class ShowCaseBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(15),
-      margin: EdgeInsets.all(10),
-      height: 145,
-      width: 145,
-      // color: Colors.redAccent,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          FittedBox(
-            child: Text(
-              title,
-              textScaleFactor: 1,
-              style: TextStyle(
+    return Card(
+      elevation: 2,
+      color: col,
+      child: Container(
+        padding: EdgeInsets.all(15),
+        margin: EdgeInsets.all(10),
+        height: MediaQuery.of(context).size.height * 0.175,
+        width: MediaQuery.of(context).size.width * 0.35,
+        // color: Colors.redAccent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            FittedBox(
+              child: Text(
+                title,
+                textScaleFactor: 1,
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
-                  fontStyle: FontStyle.italic),
-            ),
-          ),
-          FittedBox(
-            child: Text(
-              calVal.toString(),
-              textScaleFactor: 3.5,
-              style: TextStyle(
-                color: Colors.white,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          )
-        ],
+            FittedBox(
+              child: Text(
+                calVal.toString(),
+                textScaleFactor: 3.5,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        ),
+        decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: col,
+            borderRadius: BorderRadius.circular(10)),
       ),
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: col,
-          borderRadius: BorderRadius.circular(10)),
     );
   }
 }

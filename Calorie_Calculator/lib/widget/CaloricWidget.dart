@@ -11,8 +11,21 @@ class CaloricWidget extends StatelessWidget {
 
   CaloricWidget({this.age, this.weight, this.exerLevel, this.height, this.sex});
 
+  double calcCalorie() {
+    double mainC;
+    if (sex == Gender.Male) {
+      mainC = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+    } else {
+      mainC = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+    }
+    return mainC;
+  }
+
   @override
   Widget build(BuildContext context) {
+    double maintain = 0;
+    maintain = calcCalorie();
+    maintain *= exerLevel;
     return Container(
       color: Colors.white,
       child: Column(
@@ -29,12 +42,12 @@ class CaloricWidget extends StatelessWidget {
                     ShowCaseBox(
                       title: "Maintainance",
                       col: Colors.amber,
-                      calVal: 1450.2,
+                      calVal: maintain,
                     ),
                     ShowCaseBox(
                       title: "Fat Loss",
                       col: Colors.lime,
-                      calVal: 1450.2,
+                      calVal: (maintain - maintain * 0.2),
                     )
                   ],
                 ),
@@ -44,12 +57,12 @@ class CaloricWidget extends StatelessWidget {
                     ShowCaseBox(
                       title: "Extreme FatLoss",
                       col: Colors.lightBlueAccent,
-                      calVal: 1450.2,
+                      calVal: (maintain - maintain * 0.4),
                     ),
                     ShowCaseBox(
                       title: "Weight Gain",
                       col: Colors.deepOrangeAccent,
-                      calVal: 1450.2,
+                      calVal: (maintain + maintain * 0.2),
                     )
                   ],
                 )
