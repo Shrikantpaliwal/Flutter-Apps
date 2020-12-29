@@ -26,15 +26,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  BuildContext ctx;
-
   @override
   Widget build(BuildContext context) {
-    ctx = context;
-    return initialWidget();
-  }
-
-  Widget initialWidget() {
     return MaterialApp(
       title: 'InstaProfileHD',
       theme: ThemeData(
@@ -56,13 +49,18 @@ class _MyAppState extends State<MyApp> {
           title: Text("InstaProfileHD"),
           brightness: Brightness.light,
         ),
-        body: mainAct(),
+        body: MainAct(getProfileData),
       ),
     );
   }
+}
 
-  Widget mainAct() {
-    TextEditingController enteredUsername;
+class MainAct extends StatelessWidget {
+  final Function callApi;
+  MainAct(this.callApi);
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController enteredUsername = new TextEditingController();
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.all(10),
@@ -98,13 +96,14 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
                 onPressed: () {
-                  if (enteredUsername.text.toString() != null)
-                    getProfileData(enteredUsername.text.toString());
+                  if (enteredUsername.text.toString() != null) {
+                    callApi(enteredUsername.text.toString());
+                  }
                 },
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(ctx).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.2,
             ),
             _imgurl != null
                 ? Center(
@@ -115,19 +114,20 @@ class _MyAppState extends State<MyApp> {
                       maxScale: 2,
                       child: Image.network(
                         _imgurl,
-                        width: MediaQuery.of(ctx).size.width * 0.5,
-                        height: MediaQuery.of(ctx).size.width * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: MediaQuery.of(context).size.width * 0.5,
                         fit: BoxFit.cover,
                       ),
                     ),
                   )
                 : Center(
                     child: Image.network(
-                    "https://wpklik.com/wp-content/uploads/2019/03/A-404-Page-Best-Practices-and-Design-Inspiration.jpg",
-                    width: MediaQuery.of(ctx).size.width * 0.5,
-                    height: MediaQuery.of(ctx).size.width * 0.5,
-                    fit: BoxFit.cover,
-                  ))
+                      "https://wpklik.com/wp-content/uploads/2019/03/A-404-Page-Best-Practices-and-Design-Inspiration.jpg",
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.width * 0.5,
+                      fit: BoxFit.cover,
+                    ),
+                  )
           ],
         ),
       ),
