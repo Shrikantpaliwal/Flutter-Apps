@@ -182,7 +182,7 @@ class _CaloricInfoModelState extends State<CaloricInfoModel>
               ),
               Container(
                 height: 45,
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Center(
                       child: Text(
                     "Submit",

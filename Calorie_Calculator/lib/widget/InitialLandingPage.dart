@@ -22,8 +22,7 @@ class InitialLandingPage extends StatelessWidget {
           padding: EdgeInsets.all(5),
           width: 130,
           height: 60,
-          child: RaisedButton(
-            elevation: 5,
+          child: ElevatedButton(
             onPressed: () {
               modelView(context);
             },

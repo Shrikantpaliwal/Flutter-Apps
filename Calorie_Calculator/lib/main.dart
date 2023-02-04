@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
       title: 'Calorina',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        buttonColor: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Calorina - Measure Recommended Calories'),
